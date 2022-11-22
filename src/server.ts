@@ -17,7 +17,7 @@ const main = async () => {
     .catch((error) => console.log(error));
 
   const app = express();
-  const port = 8000;
+  const port = process.env.PORT;
   app.use(express.json());
   app.use(cors());
   app.get('/', async (_, res) => {
