@@ -17,11 +17,12 @@ const main = async () => {
     .catch((error) => console.log(error));
 
   const app = express();
-  const port = process.env.PORT;
+  const port = 8000;
   app.use(express.json());
   app.use(cors());
-  app.get('/', async (_, res) => {
-    res.send('server working?');
+
+  app.post('/', async (_, res) => {
+    res.send('give up krde');
   });
 
   app.post('/cifs', async (_, res) => {
@@ -35,28 +36,29 @@ const main = async () => {
   });
 
   app.post('/cifsbydepartment', async (req, res) => {
-    const myData = await AppDataSource.getRepository(CIF).find();
-    const finaldata: CIF[] = [];
-    myData.map((data) => {
-      if (data.department == req.body.department) finaldata.push(data);
-    });
-    res.send(finaldata);
+    const myData = await AppDataSource.getRepository(CIF)
+      .createQueryBuilder('cif')
+      .where('cif.department = :department', {
+        department: req.body.department,
+      })
+      .getMany();
+    res.send(myData);
   });
 
   app.post('/cifbyid', async (req, res) => {
-    const myData = await AppDataSource.getRepository(CIF).find();
-    myData.map((data) => {
-      if (data.id == req.body.id) res.send(data);
-    });
-    res.send('cif not found');
+    const myData = await AppDataSource.getRepository(CIF)
+      .createQueryBuilder('cif')
+      .where('cif.id = :id', { id: req.body.id })
+      .getOne();
+    res.send(myData);
   });
 
   app.post('/requestbyid', async (req, res) => {
-    const myData = await AppDataSource.getRepository(Requests).find();
-    myData.map((data) => {
-      if (data.id == req.body.id) res.send(data);
-    });
-    res.send('request not found');
+    const myData = await AppDataSource.getRepository(Requests)
+      .createQueryBuilder('requests')
+      .where('requests.id = :id', { id: req.body.id })
+      .getOne();
+    res.send(myData);
   });
 
   app.post('/getfac', async (req, res) => {
