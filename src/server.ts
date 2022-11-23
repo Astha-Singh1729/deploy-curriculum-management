@@ -179,7 +179,8 @@ const main = async () => {
       myData = await AppDataSource.getRepository(Administrator).find();
 
     myData?.map((data) => {
-      if (data.username == req.body.user) exists = true;
+      if (data.username == req.body.user && data.password == req.body.password)
+        exists = true;
     });
     res.send(exists);
   });
