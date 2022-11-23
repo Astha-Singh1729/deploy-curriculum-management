@@ -32,6 +32,7 @@ export class CIF {
 
 @Entity()
 export class Faculty extends Person {
+  @Column('int', { array: true })
   cifs: number[];
 }
 
