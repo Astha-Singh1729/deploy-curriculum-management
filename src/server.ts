@@ -131,6 +131,7 @@ const main = async () => {
     request.faculty = req.body.faculty;
     request.isrequested = true;
     request.temp_cif = req.body.temp_cif;
+    request.cifid = req.body.cifid;
     await AppDataSource.getRepository(Requests).save(request);
     res.sendStatus(200);
   });

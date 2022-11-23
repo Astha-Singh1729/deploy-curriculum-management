@@ -42,6 +42,9 @@ export class Requests {
   id: number;
 
   @Column()
+  cifid: number;
+
+  @Column()
   course: string;
 
   @Column()
